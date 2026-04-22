@@ -54,14 +54,13 @@
         .rule-card { background: rgba(255, 255, 255, 0.05); padding: 25px; border-left: 6px solid #0d47a1; border-radius: 8px; }
         .rule-card h3 { color: #ff0000; margin-top: 0; font-size: 20px; text-transform: uppercase; }
 
-        .price-tag { font-size: 35px; color: #25d366; font-weight: 900; margin: 20px 0; text-shadow: 0 0 10px #25d366; }
         .gtf-input { width: 100%; max-width: 500px; padding: 15px; margin: 10px auto; display: block; background: #000; color: #fff; border: 1px solid #0d47a1; border-radius: 8px; font-size: 16px; }
-        
-        .forum-container { text-align: left; background: #000; border: 1px solid #0d47a1; border-radius: 10px; padding: 20px; }
-        .forum-topic { border-bottom: 1px solid #222; padding: 15px; cursor: pointer; transition: 0.3s; }
-        .forum-topic:hover { background: rgba(13, 71, 161, 0.2); }
-        .forum-topic h4 { margin: 0; color: #25d366; }
-        .forum-topic p { margin: 5px 0 0; font-size: 13px; color: #888; }
+
+        #mural-duvidas { margin-top: 20px; text-align: left; background: rgba(0,0,0,0.5); padding: 15px; border-radius: 10px; max-height: 300px; overflow-y: auto; border: 1px dashed #0d47a1; }
+        .msg-post { border-bottom: 1px solid #222; padding: 10px 0; }
+        .msg-post b { color: #25d366; }
+
+        .price-tag { font-size: 35px; color: #25d366; font-weight: 900; margin: 20px 0; text-shadow: 0 0 10px #25d366; }
 
         footer { margin-top: 50px; padding: 30px; background: rgba(0,0,0,0.8); border-top: 2px solid #0d47a1; display: flex; flex-direction: column; align-items: center; gap: 20px; min-width: 1200px; }
         .footer-stats { display: flex; justify-content: space-around; width: 100%; align-items: center; flex-wrap: wrap; }
@@ -75,6 +74,7 @@
             var rand = Math.floor(1000 + Math.random() * 9000);
             var pass = "GTF-" + rand;
             document.getElementById('hidden_pass').value = pass;
+            loadMessages();
         }
 
         window.onload = generatePassword;
@@ -101,13 +101,27 @@
             if (audio.paused) { audio.play(); } else { audio.pause(); }
         }
 
-        function abrirDuvida() {
-            document.getElementById('forum-home').style.display = 'none';
-            document.getElementById('forum-suporte').style.display = 'block';
+        function salvarDuvida() {
+            var nome = document.getElementById('nome-msg').value;
+            var texto = document.getElementById('texto-msg').value;
+            if(!nome || !texto) return;
+
+            var msgs = JSON.parse(localStorage.getItem('gtf1_msgs') || '[]');
+            msgs.push({nome: nome, texto: texto});
+            localStorage.setItem('gtf1_msgs', JSON.stringify(msgs));
+            loadMessages();
+            alert('Mensagem postada no Mural!');
+            document.getElementById('texto-msg').value = "";
         }
-        function voltarForum() {
-            document.getElementById('forum-home').style.display = 'block';
-            document.getElementById('forum-suporte').style.display = 'none';
+
+        function loadMessages() {
+            var mural = document.getElementById('mural-duvidas');
+            if(!mural) return;
+            var msgs = JSON.parse(localStorage.getItem('gtf1_msgs') || '[]');
+            mural.innerHTML = '<b>MURAL DE DÚVIDAS VIP:</b><br>';
+            msgs.reverse().forEach(function(m) {
+                mural.innerHTML += '<div class="msg-post"><b>' + m.nome + ':</b> ' + m.texto + '</div>';
+            });
         }
     </script>
 </head>
@@ -142,7 +156,7 @@
                 <div class="history-text">
                     O clã <span class="highlight">GATON FORCE [GTF1]</span> não é apenas um grupo de jogadores, é uma irmandade forjada no aço desde 2017. Tudo começou no campo de batalha de Battlefield 1, fundado pela visão estratégica de <span class="highlight">MATA RATOS</span> e pela liderança inquestionável de <span class="highlight">Rodrigo Marinho</span>. 
                     <br><br>
-                    Em pouco tempo, o clã alcançou o feito histórico de ser o <span class="highlight">Número #1 na Liga Beta do BF1</span> mundialmente. Nossa tradição carrega o peso dos soldados das grandes guerras que usavam o símbolo do esquadrão de gatos em suas fardas como prova de agilidade e precisão letal. 
+                    Em pouco tempo, o clã alcançou le feito histórico de ser o <span class="highlight">Número #1 na Liga Beta do BF1</span> mundialmente. Nossa tradição carrega o peso dos soldados das grandes guerras que usavam o símbolo do esquadrão de gatos em suas fardas como prova de agilidade e precisão letal. 
                     <br><br>
                     Desde 2019, o GTF1 expandiu seu domínio para o Call of Duty, sob o comando rígido e profissional do <span class="highlight">CAPITÃO PÁTRIA</span>. Aqui, a lealdade é o nosso maior calibre. Somos amados por poucos, odiados por muitos, mas respeitados por todos.
                 </div>
@@ -192,26 +206,14 @@
         <div id="forum" class="page-content">
             <div class="card">
                 <h2 style="color: #25d366;">[QG] TERMINAL DE COMANDO VIP</h2>
-                <div id="forum-home">
-                    <div class="forum-container">
-                        <div class="forum-topic" onclick="abrirDuvida()">
-                            <h4>CENTRAL DE DÚVIDAS / SUPORTE</h4>
-                            <p>Clique aqui para digitar sua dúvida técnica para o comando.</p>
-                        </div>
-                        <div class="forum-topic" onclick="showTab('loja')">
-                            <h4>DOWNLOAD DE ARSENAL</h4>
-                            <p>Acesse a área de scripts oficiais.</p>
-                        </div>
-                    </div>
-                </div>
-                <div id="forum-suporte" style="display:none;">
-                    <form action="https://formsubmit.co/danieljonata@gmail.com" method="POST">
-                        <input type="hidden" name="_subject" value="DÚVIDA TÉCNICA - FÓRUM VIP">
-                        <input type="text" name="membro" class="gtf-input" placeholder="SEU NOME / TAG" required>
-                        <textarea name="duvida" class="gtf-input" placeholder="DIGITE SUA DÚVIDA..." style="height:150px;" required></textarea>
-                        <button type="submit" class="btn-join">ENVIAR DÚVIDA</button>
-                        <button type="button" class="btn-auth" onclick="voltarForum()" style="margin-top:10px;">VOLTAR</button>
+                <p>Poste sua dúvida técnica abaixo para que o Comando e outros membros ajudem.</p>
+                <div class="forum-container">
+                    <form onsubmit="salvarDuvida(); return false;">
+                        <input type="text" id="nome-msg" class="gtf-input" placeholder="SEU NOME / TAG" required>
+                        <textarea id="texto-msg" class="gtf-input" placeholder="DIGITE SUA DÚVIDA..." style="height:100px;" required></textarea>
+                        <button type="submit" class="btn-join">POSTAR NO MURAL</button>
                     </form>
+                    <div id="mural-duvidas"></div>
                 </div>
             </div>
         </div>
@@ -233,10 +235,12 @@
         <div id="vip" class="page-content">
             <div class="card">
                 <h2>CADASTRO VIP</h2>
+                <p style="color: #25d366; font-weight: bold;">AVISO: Após o cadastro, o Comando analisará seus dados e enviará sua senha exclusiva por e-mail em até 24 horas ou menos.</p>
                 <form action="https://formsubmit.co/danieljonata@gmail.com" method="POST">
                     <input type="hidden" name="CHAVE_GERADA" id="hidden_pass">
-                    <input type="email" name="email" class="gtf-input" placeholder="E-MAIL" required>
-                    <input type="text" name="tag" class="gtf-input" placeholder="TAG" required>
+                    <input type="email" name="email" class="gtf-input" placeholder="SEU E-MAIL" required>
+                    <input type="text" name="tag" class="gtf-input" placeholder="TAG DISCORD / PSN" required>
+                    <textarea name="motivo" class="gtf-input" placeholder="MOTIVO PARA ENTRAR" style="height:80px;"></textarea>
                     <button type="submit" class="btn-join">SOLICITAR ACESSO</button>
                 </form>
             </div>
