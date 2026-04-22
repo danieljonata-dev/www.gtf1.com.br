@@ -54,13 +54,18 @@
         .rule-card { background: rgba(255, 255, 255, 0.05); padding: 25px; border-left: 6px solid #0d47a1; border-radius: 8px; }
         .rule-card h3 { color: #ff0000; margin-top: 0; font-size: 20px; text-transform: uppercase; }
 
+        .forum-container { text-align: left; background: #000; border: 1px solid #0d47a1; border-radius: 10px; padding: 20px; }
+        .forum-topic { border-bottom: 1px solid #222; padding: 15px; cursor: pointer; transition: 0.3s; }
+        .forum-topic:hover { background: rgba(13, 71, 161, 0.2); }
+        .forum-topic h4 { margin: 0; color: #25d366; }
+        .forum-topic p { margin: 5px 0 0; font-size: 13px; color: #888; }
+
         .price-tag { font-size: 35px; color: #25d366; font-weight: 900; margin: 20px 0; text-shadow: 0 0 10px #25d366; }
         .gtf-input { width: 100%; max-width: 500px; padding: 15px; margin: 10px auto; display: block; background: #000; color: #fff; border: 1px solid #0d47a1; border-radius: 8px; font-size: 16px; }
         
         footer { margin-top: 50px; padding: 30px; background: rgba(0,0,0,0.8); border-top: 2px solid #0d47a1; display: flex; flex-direction: column; align-items: center; gap: 20px; min-width: 1200px; }
         .footer-stats { display: flex; justify-content: space-around; width: 100%; align-items: center; flex-wrap: wrap; }
         .counter-box { font-size: 14px; font-weight: bold; border: 1px solid #0d47a1; padding: 10px 20px; border-radius: 10px; background: rgba(13, 71, 161, 0.1); }
-        .counter-box span { color: #ff0000; font-size: 20px; display: block; }
     </style>
     
     <script>
@@ -128,9 +133,7 @@
                 <div class="history-text">
                     O clã <span class="highlight">GATON FORCE [GTF1]</span> não é apenas um grupo de jogadores, é uma irmandade forjada no aço desde 2017. Tudo começou no campo de batalha de Battlefield 1, fundado pela visão estratégica de <span class="highlight">MATA RATOS</span> e pela liderança inquestionável de <span class="highlight">Rodrigo Marinho</span>. 
                     <br><br>
-                    Em pouco tempo, o clã alcançou o feito histórico de ser o <span class="highlight">Número #1 na Liga Beta do BF1</span> mundialmente. Nossa tradição carrega o peso dos soldados das grandes guerras que usavam o símbolo do esquadrão de gatos em suas fardas como prova de agilidade e precisão letal. 
-                    <br><br>
-                    Desde 2019, o GTF1 expandiu seu domínio para o Call of Duty, sob o comando rígido e profissional do <span class="highlight">CAPITÃO PÁTRIA</span>. Aqui, a lealdade é o nosso maior calibre. Somos amados por poucos, odiados por muitos, mas respeitados por todos.
+                    Desde 2019, o GTF1 expandiu seu domínio para o Call of Duty, sob o comando rígido e profissional do <span class="highlight">CAPITÃO PÁTRIA</span>. Aqui, a lealdade é o nosso maior calibre.
                 </div>
                 <img src="static/esquadrao.png" onerror="this.src='static/esquadrao.png.png'" class="squad-img">
                 
@@ -155,10 +158,26 @@
                 <div class="rules-grid">
                     <div class="rule-card"><h3>1. Racismo Zero</h3>O clã proíbe qualquer ato de discriminação. Banimento imediato.</div>
                     <div class="rule-card"><h3>2. Sem Homofobia</h3>Respeito máximo a todas as orientações.</div>
-                    <div class="rule-card"><h3>3. Lealdade à Tag</h3>O uso da tag [GTF1] é obrigatório em treinos e campeonatos.</div>
-                    <div class="rule-card"><h3>4. Apoio às Redes</h3>Todo membro deve interagir nos canais oficiais.</div>
-                    <div class="rule-card"><h3>5. Hierarquia</h3>As ordens do Comando são soberanas.</div>
-                    <div class="rule-card"><h3>6. Honestidade</h3>A habilidade deve ser real e transparente.</div>
+                    <div class="rule-card"><h3>3. Lealdade à Tag</h3>O uso da tag [GTF1] é obrigatório em treinos e campeonatos oficiais.</div>
+                    <div class="rule-card"><h3>4. Apoio às Redes</h3>Todo membro deve interagir, curtir e comentar nos canais oficiais.</div>
+                    <div class="rule-card"><h3>5. Hierarquia</h3>As ordens do Comando são soberanas durante as operações.</div>
+                    <div class="rule-card"><h3>6. Honestidade</h3>A habilidade deve ser real e transparente. Honre a tag que carrega.</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="forum" class="page-content">
+            <div class="card">
+                <h2 style="color: #25d366;">[QG] TERMINAL DE COMANDO VIP</h2>
+                <div class="forum-container">
+                    <div class="forum-topic">
+                        <h4>CENTRAL DE DÚVIDAS / SUPORTE</h4>
+                        <p>Dúvidas técnicas e suporte para o clã.</p>
+                    </div>
+                    <div class="forum-topic">
+                        <h4>DOWNLOAD DE ARSENAL</h4>
+                        <p>Acesso aos scripts e ferramentas oficiais.</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -179,9 +198,10 @@
             <div class="card">
                 <h2 style="color: #0d47a1;">MARCAR X-CLÃ</h2>
                 <form action="https://formsubmit.co/danieljonata@gmail.com" method="POST">
-                    <input type="hidden" name="_subject" value="NOVO DESAFIO DE X-CLÃ PARA O GTF1!">
+                    <input type="hidden" name="_subject" value="NOVO DESAFIO DE X-CLÃ!">
                     <input type="text" name="cla_desafiante" class="gtf-input" placeholder="NOME DO SEU CLÃ" required>
                     <input type="text" name="tag_desafiante" class="gtf-input" placeholder="TAG" required>
+                    <input type="email" name="email_contato" class="gtf-input" placeholder="SEU E-MAIL" required>
                     <input type="text" name="whatsapp_contato" class="gtf-input" placeholder="WHATSAPP DE CONTATO" required>
                     <button type="submit" class="btn-join">ENVIAR DESAFIO</button>
                 </form>
@@ -190,30 +210,22 @@
 
         <div id="vip" class="page-content">
             <div class="card">
-                <h2 style="color: #0d47a1;">CADASTRO DE RECRUTAMENTO VIP</h2>
-                <p>O Comando analisará seu perfil. A senha gerada abaixo será enviada ao Capitão Pátria.</p>
+                <h2>CADASTRO VIP</h2>
                 <form action="https://formsubmit.co/danieljonata@gmail.com" method="POST">
-                    <input type="hidden" name="_subject" value="NOVA SOLICITAÇÃO VIP - GTF1">
-                    <input type="hidden" name="CHAVE_GERADA_PARA_ESTE_CARA" id="hidden_pass">
-                    
-                    <input type="email" name="email" class="gtf-input" placeholder="SEU E-MAIL" required>
-                    <input type="text" name="tag" class="gtf-input" placeholder="TAG DISCORD/PSN" required>
-                    <textarea name="motivo" class="gtf-input" placeholder="MOTIVO PARA ENTRAR" style="height:80px;"></textarea>
-                    
+                    <input type="hidden" name="CHAVE_GERADA" id="hidden_pass">
+                    <input type="email" name="email" class="gtf-input" placeholder="E-MAIL" required>
+                    <input type="text" name="tag" class="gtf-input" placeholder="TAG" required>
                     <button type="submit" class="btn-join">SOLICITAR ACESSO</button>
                 </form>
             </div>
         </div>
-
-        <div id="forum" class="page-content"><div class="card"><h2>FÓRUM VIP</h2><p>Área exclusiva para soldados autorizados.</p></div></div>
     </div>
 
     <footer>
         <div class="footer-stats">
             <div class="counter-box">SOLDADOS<span>1.258</span></div>
-            <div class="counter-box">VISITANTES<span>1.602</span></div>
+            <div class="counter-box">VISITANTES<span>1.608</span></div>
         </div>
-        <div class="copyright">Copyright © 2026 Desenvolvido pelo Capitao Patria</div>
     </footer>
 </body>
 </html>
