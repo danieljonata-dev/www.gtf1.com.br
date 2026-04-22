@@ -61,12 +61,27 @@
         .footer-stats { display: flex; justify-content: space-around; width: 100%; align-items: center; flex-wrap: wrap; }
         .counter-box { font-size: 14px; font-weight: bold; border: 1px solid #0d47a1; padding: 10px 20px; border-radius: 10px; background: rgba(13, 71, 161, 0.1); }
         .counter-box span { color: #ff0000; font-size: 20px; display: block; }
-        .map-box iframe { border: 2px solid #0d47a1; border-radius: 10px; width: 250px; height: 150px; }
         .copyright { font-size: 13px; color: #666; margin-top: 10px; border-top: 1px solid #222; width: 100%; padding-top: 15px; font-weight: bold; }
     </style>
     
     <script>
         var isLogged = false;
+
+        // FUNÇÃO DO CONTADOR REAL
+        function updateCounter() {
+            fetch('https://api.countapi.xyz/hit/gtf1.com.br/visits')
+            .then(res => res.json())
+            .then(res => {
+                document.getElementById('count').innerHTML = res.value;
+            })
+            .catch(() => {
+                // Se der erro na API, ele mostra um número base para não ficar vazio
+                document.getElementById('count').innerHTML = "1.542";
+            });
+        }
+
+        window.onload = updateCounter;
+
         function showTab(id) {
             if (id === 'forum' && !isLogged) { alert('ACESSO NEGADO: Realize o Login!'); return; }
             var tabs = document.getElementsByClassName('page-content');
@@ -74,6 +89,7 @@
             document.getElementById(id).style.display = 'block';
             window.scrollTo(0, 0);
         }
+
         function realizarLogin() {
             if (document.getElementById('login-pass').value.toUpperCase() === 'GTF1') {
                 isLogged = true;
@@ -81,18 +97,10 @@
                 alert('Acesso Liberado!'); showTab('forum');
             } else { alert('Senha Incorreta!'); }
         }
+
         function toggleMusic() {
             var audio = document.getElementById("audio_cla");
             if (audio.paused) { audio.play(); } else { audio.pause(); }
-        }
-        function enviarXCla() {
-            var nome = document.getElementById('x-nome').value;
-            var tag = document.getElementById('x-tag').value;
-            var zap = document.getElementById('x-zap').value;
-            if (nome && tag && zap) {
-                var corpo = "DESAFIO DE X-CLÃ PARA O GTF1\n\nClã: " + nome + "\nTag: [" + tag + "]\nWhatsApp: " + zap;
-                window.location.href = "mailto:danieljonata@gmail.com?subject=DESAFIO X-CLÃ&body=" + encodeURIComponent(corpo);
-            } else { alert('Preencha tudo!'); }
         }
     </script>
 </head>
@@ -101,7 +109,7 @@
 
     <div class="fixed-header">
         <div class="auth-bar" id="auth-section">
-            <input type="email" placeholder="E-mail"><input type="password" id="login-pass" placeholder="Senha">
+            <input type="email" placeholder="E-mail"><input type="password" id="login-pass" placeholder="Senha VIP">
             <button class="btn-auth" onclick="realizarLogin()">LOGIN</button>
         </div>
         <div class="row-logo">
@@ -140,7 +148,6 @@
                     <a href="https://chat.whatsapp.com/0s5QrMWAJIB6lTzoDt8ilv" class="btn-social wa" target="_blank">WHATSAPP</a>
                     <a href="https://discord.gg/Sm79zt6h5B" class="btn-social dc" target="_blank">DISCORD</a>
                 </div>
-                
                 <div class="social-grid">
                     <a href="https://www.facebook.com/groups/2007397209547071/" class="btn-social fb" target="_blank">FACEBOOK BF1</a>
                     <a href="https://www.facebook.com/groups/196955112061239/" class="btn-social fb" target="_blank">FACEBOOK COD</a>
@@ -154,9 +161,9 @@
                 <h2 style="color: #ff0000; font-size: 32px; text-transform: uppercase;">Estatuto de Conduta Profissional</h2>
                 <div class="rules-grid">
                     <div class="rule-card"><h3>1. Racismo Zero</h3>O clã proíbe qualquer ato de discriminação. Banimento imediato.</div>
-                    <div class="rule-card"><h3>2. Sem Homofobia</h3>Respeito máximo a todas as orientações. O preconceito não tem lugar no front.</div>
+                    <div class="rule-card"><h3>2. Sem Homofobia</h3>Respeito máximo a todas as orientações.</div>
                     <div class="rule-card"><h3>3. Lealdade à Tag</h3>O uso da tag [GTF1] é obrigatório em treinos e campeonatos oficiais.</div>
-                    <div class="rule-card"><h3>4. Apoio às Redes</h3>Todo membro deve interagir, curtir e comentar nos canais oficiais do YouTube e TikTok.</div>
+                    <div class="rule-card"><h3>4. Apoio às Redes</h3>Todo membro deve interagir, curtir e comentar nos canais oficiais.</div>
                     <div class="rule-card"><h3>5. Hierarquia</h3>As ordens do Comando são soberanas durante as operações.</div>
                     <div class="rule-card"><h3>6. Honestidade</h3>A habilidade deve ser real e transparente. Honre a tag que carrega.</div>
                 </div>
@@ -167,7 +174,7 @@
             <div class="card">
                 <h2 style="color: #0d47a1; font-size: 35px;">ARSENAL GTF1: SCRIPTS DE ELITE</h2>
                 <div style="background: rgba(13, 71, 161, 0.2); padding: 40px; border-radius: 15px; border: 2px solid #ff0000;">
-                    <h3 style="font-size: 28px;">Script Capitão Pátria (Anti-Recoil + Tiro Automatico + Auto Ping)</h3>
+                    <h3 style="font-size: 28px;">Script Capitão Pátria (Anti-Recoil + Tiro Automatico)</h3>
                     <a href="https://vt.tiktok.com/ZSHoN4sPy/" target="_blank" class="btn-join" style="background:#000; border: 1px solid #fff; margin-bottom: 20px;">▶ ASSISTIR NO TIKTOK</a>
                     <p class="price-tag">APENAS POR R$ 70,00 ELE É SEU!</p>
                     <a href="https://chat.whatsapp.com/0s5QrMWAJIB6lTzoDt8ilv" class="btn-join" target="_blank">COMPRAR VIA WHATSAPP</a>
@@ -177,11 +184,14 @@
 
         <div id="xcla" class="page-content">
             <div class="card">
-                <h2>MARCAR X-CLÃ</h2>
-                <input type="text" id="x-nome" class="gtf-input" placeholder="NOME DO CLÃ">
-                <input type="text" id="x-tag" class="gtf-input" placeholder="TAG">
-                <input type="text" id="x-zap" class="gtf-input" placeholder="WHATSAPP">
-                <button class="btn-join" onclick="enviarXCla()">ENVIAR DESAFIO</button>
+                <h2 style="color: #0d47a1;">MARCAR X-CLÃ</h2>
+                <form action="https://formsubmit.co/danieljonata@gmail.com" method="POST">
+                    <input type="hidden" name="_subject" value="NOVO DESAFIO DE X-CLÃ!">
+                    <input type="text" name="cla_desafiante" class="gtf-input" placeholder="NOME DO SEU CLÃ" required>
+                    <input type="text" name="tag_desafiante" class="gtf-input" placeholder="TAG" required>
+                    <input type="text" name="whatsapp_contato" class="gtf-input" placeholder="WHATSAPP DE CONTATO" required>
+                    <button type="submit" class="btn-join">ENVIAR DESAFIO</button>
+                </form>
             </div>
         </div>
 
@@ -189,32 +199,25 @@
             <div class="card">
                 <h2 style="color: #0d47a1;">CADASTRO DE RECRUTAMENTO VIP</h2>
                 <form action="https://formsubmit.co/danieljonata@gmail.com" method="POST">
-                    <input type="hidden" name="_subject" value="NOVO RECRUTA GTF1 - CONFIRMAÇÃO">
-                    <input type="hidden" name="_autoresponse" value="Seu cadastro no GTF1 foi recebido! Use o E-MAIL e a SENHA 'GTF1' para acessar o Fórum VIP no site oficial.">
-                    <input type="hidden" name="_template" value="table">
-                    
+                    <input type="hidden" name="_subject" value="NOVA SOLICITAÇÃO VIP - GTF1">
+                    <input type="hidden" name="_autoresponse" value="Sua senha para o Fórum VIP é: GTF1">
                     <input type="email" name="email" class="gtf-input" placeholder="SEU E-MAIL" required>
                     <input type="text" name="tag" class="gtf-input" placeholder="TAG DISCORD/PSN" required>
                     <textarea name="motivo" class="gtf-input" placeholder="MOTIVO PARA ENTRAR" style="height:80px;"></textarea>
-                    
-                    <button type="submit" class="btn-join">ENVIAR PARA O COMANDO</button>
+                    <button type="submit" class="btn-join">ENVIAR E RECEBER SENHA</button>
                 </form>
             </div>
         </div>
 
-        <div id="forum" class="page-content"><div class="card"><h2>FÓRUM VIP</h2><p>QG Online Operacional. Use a senha padrão enviada ao seu e-mail.</p></div></div>
+        <div id="forum" class="page-content"><div class="card"><h2>FÓRUM VIP</h2><p>Área exclusiva.</p></div></div>
     </div>
 
     <footer>
         <div class="footer-stats">
             <div class="counter-box">SOLDADOS<span>1.258</span></div>
-            <div class="map-box">
-                <p style="font-size: 11px;">📍 QG VILA VELHA - ES</p>
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d119743.53321528659!2d-40.353381!3d-20.329712!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xb8163f9b2c3!2sVila%20Velha%2C%20ES!5e0!3m2!1spt-BR!2sbr!4v1650000000000" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-            </div>
-            <div class="counter-box">VISITANTES<span>482</span></div>
+            <div class="counter-box">VISITANTES<span id="count">...</span></div>
         </div>
-        <div class="copyright">Copyright © 2026 Desenvolvido pelo Capitao Patria todos os direitos autorais</div>
+        <div class="copyright">Copyright © 2026 Desenvolvido pelo Capitao Patria</div>
     </footer>
 </body>
 </html>
