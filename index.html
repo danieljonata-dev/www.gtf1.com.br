@@ -54,15 +54,15 @@
         .rule-card { background: rgba(255, 255, 255, 0.05); padding: 25px; border-left: 6px solid #0d47a1; border-radius: 8px; }
         .rule-card h3 { color: #ff0000; margin-top: 0; font-size: 20px; text-transform: uppercase; }
 
+        .price-tag { font-size: 35px; color: #25d366; font-weight: 900; margin: 20px 0; text-shadow: 0 0 10px #25d366; }
+        .gtf-input { width: 100%; max-width: 500px; padding: 15px; margin: 10px auto; display: block; background: #000; color: #fff; border: 1px solid #0d47a1; border-radius: 8px; font-size: 16px; }
+        
         .forum-container { text-align: left; background: #000; border: 1px solid #0d47a1; border-radius: 10px; padding: 20px; }
         .forum-topic { border-bottom: 1px solid #222; padding: 15px; cursor: pointer; transition: 0.3s; }
         .forum-topic:hover { background: rgba(13, 71, 161, 0.2); }
         .forum-topic h4 { margin: 0; color: #25d366; }
         .forum-topic p { margin: 5px 0 0; font-size: 13px; color: #888; }
 
-        .price-tag { font-size: 35px; color: #25d366; font-weight: 900; margin: 20px 0; text-shadow: 0 0 10px #25d366; }
-        .gtf-input { width: 100%; max-width: 500px; padding: 15px; margin: 10px auto; display: block; background: #000; color: #fff; border: 1px solid #0d47a1; border-radius: 8px; font-size: 16px; }
-        
         footer { margin-top: 50px; padding: 30px; background: rgba(0,0,0,0.8); border-top: 2px solid #0d47a1; display: flex; flex-direction: column; align-items: center; gap: 20px; min-width: 1200px; }
         .footer-stats { display: flex; justify-content: space-around; width: 100%; align-items: center; flex-wrap: wrap; }
         .counter-box { font-size: 14px; font-weight: bold; border: 1px solid #0d47a1; padding: 10px 20px; border-radius: 10px; background: rgba(13, 71, 161, 0.1); }
@@ -93,12 +93,21 @@
                 isLogged = true;
                 document.getElementById('auth-section').innerHTML = '<b style="color:#25d366;">LOGADO</b>';
                 alert('Acesso Liberado Soldado!'); showTab('forum');
-            } else { alert('Senha Inválida! Solicite sua chave ao Comando.'); }
+            } else { alert('Senha Inválida!'); }
         }
 
         function toggleMusic() {
             var audio = document.getElementById("audio_cla");
             if (audio.paused) { audio.play(); } else { audio.pause(); }
+        }
+
+        function abrirDuvida() {
+            document.getElementById('forum-home').style.display = 'none';
+            document.getElementById('forum-suporte').style.display = 'block';
+        }
+        function voltarForum() {
+            document.getElementById('forum-home').style.display = 'block';
+            document.getElementById('forum-suporte').style.display = 'none';
         }
     </script>
 </head>
@@ -133,7 +142,9 @@
                 <div class="history-text">
                     O clã <span class="highlight">GATON FORCE [GTF1]</span> não é apenas um grupo de jogadores, é uma irmandade forjada no aço desde 2017. Tudo começou no campo de batalha de Battlefield 1, fundado pela visão estratégica de <span class="highlight">MATA RATOS</span> e pela liderança inquestionável de <span class="highlight">Rodrigo Marinho</span>. 
                     <br><br>
-                    Desde 2019, o GTF1 expandiu seu domínio para o Call of Duty, sob o comando rígido e profissional do <span class="highlight">CAPITÃO PÁTRIA</span>. Aqui, a lealdade é o nosso maior calibre.
+                    Em pouco tempo, o clã alcançou o feito histórico de ser o <span class="highlight">Número #1 na Liga Beta do BF1</span> mundialmente. Nossa tradição carrega o peso dos soldados das grandes guerras que usavam o símbolo do esquadrão de gatos em suas fardas como prova de agilidade e precisão letal. 
+                    <br><br>
+                    Desde 2019, o GTF1 expandiu seu domínio para o Call of Duty, sob o comando rígido e profissional do <span class="highlight">CAPITÃO PÁTRIA</span>. Aqui, a lealdade é o nosso maior calibre. Somos amados por poucos, odiados por muitos, mas respeitados por todos.
                 </div>
                 <img src="static/esquadrao.png" onerror="this.src='static/esquadrao.png.png'" class="squad-img">
                 
@@ -157,7 +168,7 @@
                 <h2 style="color: #ff0000; font-size: 32px; text-transform: uppercase;">Estatuto de Conduta Profissional</h2>
                 <div class="rules-grid">
                     <div class="rule-card"><h3>1. Racismo Zero</h3>O clã proíbe qualquer ato de discriminação. Banimento imediato.</div>
-                    <div class="rule-card"><h3>2. Sem Homofobia</h3>Respeito máximo a todas as orientações.</div>
+                    <div class="rule-card"><h3>2. Sem Homofobia</h3>Respeito máximo a todas as orientações. O preconceito não tem lugar no front.</div>
                     <div class="rule-card"><h3>3. Lealdade à Tag</h3>O uso da tag [GTF1] é obrigatório em treinos e campeonatos oficiais.</div>
                     <div class="rule-card"><h3>4. Apoio às Redes</h3>Todo membro deve interagir, curtir e comentar nos canais oficiais.</div>
                     <div class="rule-card"><h3>5. Hierarquia</h3>As ordens do Comando são soberanas durante as operações.</div>
@@ -166,30 +177,41 @@
             </div>
         </div>
 
-        <div id="forum" class="page-content">
-            <div class="card">
-                <h2 style="color: #25d366;">[QG] TERMINAL DE COMANDO VIP</h2>
-                <div class="forum-container">
-                    <div class="forum-topic">
-                        <h4>CENTRAL DE DÚVIDAS / SUPORTE</h4>
-                        <p>Dúvidas técnicas e suporte para o clã.</p>
-                    </div>
-                    <div class="forum-topic">
-                        <h4>DOWNLOAD DE ARSENAL</h4>
-                        <p>Acesso aos scripts e ferramentas oficiais.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <div id="loja" class="page-content">
             <div class="card">
                 <h2 style="color: #0d47a1; font-size: 35px;">ARSENAL GTF1: SCRIPTS DE ELITE</h2>
                 <div style="background: rgba(13, 71, 161, 0.2); padding: 40px; border-radius: 15px; border: 2px solid #ff0000;">
-                    <h3 style="font-size: 28px;">Script Capitão Pátria (Anti-Recoil + Tiro Automático)</h3>
+                    <h3 style="font-size: 28px;">Script Capitão Pátria (Anti-Recoil + Tiro Automático + Auto Ping)</h3>
                     <a href="https://vt.tiktok.com/ZSHoN4sPy/" target="_blank" class="btn-join" style="background:#000; border: 1px solid #fff; margin-bottom: 20px;">▶ ASSISTIR NO TIKTOK</a>
                     <p class="price-tag">APENAS POR R$ 70,00 ELE É SEU!</p>
                     <a href="https://chat.whatsapp.com/0s5QrMWAJIB6lTzoDt8ilv" class="btn-join" target="_blank">COMPRAR VIA WHATSAPP</a>
+                </div>
+            </div>
+        </div>
+
+        <div id="forum" class="page-content">
+            <div class="card">
+                <h2 style="color: #25d366;">[QG] TERMINAL DE COMANDO VIP</h2>
+                <div id="forum-home">
+                    <div class="forum-container">
+                        <div class="forum-topic" onclick="abrirDuvida()">
+                            <h4>CENTRAL DE DÚVIDAS / SUPORTE</h4>
+                            <p>Clique aqui para digitar sua dúvida técnica para o comando.</p>
+                        </div>
+                        <div class="forum-topic" onclick="showTab('loja')">
+                            <h4>DOWNLOAD DE ARSENAL</h4>
+                            <p>Acesse a área de scripts oficiais.</p>
+                        </div>
+                    </div>
+                </div>
+                <div id="forum-suporte" style="display:none;">
+                    <form action="https://formsubmit.co/danieljonata@gmail.com" method="POST">
+                        <input type="hidden" name="_subject" value="DÚVIDA TÉCNICA - FÓRUM VIP">
+                        <input type="text" name="membro" class="gtf-input" placeholder="SEU NOME / TAG" required>
+                        <textarea name="duvida" class="gtf-input" placeholder="DIGITE SUA DÚVIDA..." style="height:150px;" required></textarea>
+                        <button type="submit" class="btn-join">ENVIAR DÚVIDA</button>
+                        <button type="button" class="btn-auth" onclick="voltarForum()" style="margin-top:10px;">VOLTAR</button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -201,7 +223,7 @@
                     <input type="hidden" name="_subject" value="NOVO DESAFIO DE X-CLÃ!">
                     <input type="text" name="cla_desafiante" class="gtf-input" placeholder="NOME DO SEU CLÃ" required>
                     <input type="text" name="tag_desafiante" class="gtf-input" placeholder="TAG" required>
-                    <input type="email" name="email_contato" class="gtf-input" placeholder="SEU E-MAIL" required>
+                    <input type="email" name="email_contato" class="gtf-input" placeholder="SEU E-MAIL DE CONTATO" required>
                     <input type="text" name="whatsapp_contato" class="gtf-input" placeholder="WHATSAPP DE CONTATO" required>
                     <button type="submit" class="btn-join">ENVIAR DESAFIO</button>
                 </form>
