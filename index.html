@@ -65,15 +65,17 @@
         footer { margin-top: 50px; padding: 30px; background: rgba(0,0,0,0.8); border-top: 2px solid #0d47a1; display: flex; flex-direction: column; align-items: center; gap: 20px; min-width: 1200px; }
         .footer-stats { display: flex; justify-content: space-around; width: 100%; align-items: center; flex-wrap: wrap; }
         .counter-box { font-size: 14px; font-weight: bold; border: 1px solid #0d47a1; padding: 10px 20px; border-radius: 10px; background: rgba(13, 71, 161, 0.1); }
+        .copyright { font-size: 13px; color: #666; margin-top: 10px; border-top: 1px solid #222; width: 100%; padding-top: 15px; font-weight: bold; }
     </style>
     
     <script>
         var isLogged = false;
+        var isMaster = false;
 
         function generatePassword() {
             var rand = Math.floor(1000 + Math.random() * 9000);
             var pass = "GTF-" + rand;
-            document.getElementById('hidden_pass').value = pass;
+            if(document.getElementById('hidden_pass')) document.getElementById('hidden_pass').value = pass;
             loadMessages();
         }
 
@@ -88,12 +90,31 @@
         }
 
         function realizarLogin() {
-            var inputPass = document.getElementById('login-pass').value.toUpperCase();
-            if (inputPass.startsWith("GTF-") || inputPass === "ADMIN_GTF1") {
+            var inputMail = document.querySelector('input[type="email"]').value.toLowerCase();
+            var inputPass = document.getElementById('login-pass').value;
+
+            // LOGIN MASTER ADM
+            if (inputMail === 'danieljonata@gmail.com' && inputPass === 'Gtf1@gatonforce') {
                 isLogged = true;
+                isMaster = true;
+                document.getElementById('auth-section').innerHTML = '<b style="color:#ff0000;">MASTER ADM</b>';
+                alert('Bem-vindo, Capitão Pátria!');
+                showTab('forum');
+                loadMessages();
+                return;
+            }
+
+            // LOGIN COMUM (SENHA GERADA)
+            if (inputPass.toUpperCase().startsWith("GTF-")) {
+                isLogged = true;
+                isMaster = false;
                 document.getElementById('auth-section').innerHTML = '<b style="color:#25d366;">LOGADO</b>';
-                alert('Acesso Liberado Soldado!'); showTab('forum');
-            } else { alert('Senha Inválida!'); }
+                alert('Acesso Liberado Soldado!');
+                showTab('forum');
+                loadMessages();
+            } else { 
+                alert('Senha Inválida!'); 
+            }
         }
 
         function toggleMusic() {
@@ -114,11 +135,22 @@
             document.getElementById('texto-msg').value = "";
         }
 
+        function apagarMural() {
+            if(confirm("Capitão, deseja apagar TODAS as mensagens do mural?")){
+                localStorage.removeItem('gtf1_msgs');
+                loadMessages();
+            }
+        }
+
         function loadMessages() {
             var mural = document.getElementById('mural-duvidas');
             if(!mural) return;
             var msgs = JSON.parse(localStorage.getItem('gtf1_msgs') || '[]');
-            mural.innerHTML = '<b>MURAL DE DÚVIDAS VIP:</b><br>';
+            
+            // BOTÃO MASTER SÓ PARA VOCÊ
+            var btnMaster = isMaster ? '<button onclick="apagarMural()" style="background:red; color:white; border:none; padding:5px; border-radius:5px; cursor:pointer; margin-bottom:10px;">LIMPAR MURAL (MASTER ADM)</button><br>' : '';
+            
+            mural.innerHTML = btnMaster + '<b>MURAL DE DÚVIDAS VIP:</b><br>';
             msgs.reverse().forEach(function(m) {
                 mural.innerHTML += '<div class="msg-post"><b>' + m.nome + ':</b> ' + m.texto + '</div>';
             });
@@ -156,7 +188,7 @@
                 <div class="history-text">
                     O clã <span class="highlight">GATON FORCE [GTF1]</span> não é apenas um grupo de jogadores, é uma irmandade forjada no aço desde 2017. Tudo começou no campo de batalha de Battlefield 1, fundado pela visão estratégica de <span class="highlight">MATA RATOS</span> e pela liderança inquestionável de <span class="highlight">Rodrigo Marinho</span>. 
                     <br><br>
-                    Em pouco tempo, o clã alcançou le feito histórico de ser o <span class="highlight">Número #1 na Liga Beta do BF1</span> mundialmente. Nossa tradição carrega o peso dos soldados das grandes guerras que usavam o símbolo do esquadrão de gatos em suas fardas como prova de agilidade e precisão letal. 
+                    Em pouco tempo, o clã alcançou o feito histórico de ser o <span class="highlight">Número #1 na Liga Beta do BF1</span> mundialmente. Nossa tradição carrega o peso dos soldados das grandes guerras que usavam o símbolo do esquadrão de gatos em suas fardas como prova de agilidade e precisão letal. 
                     <br><br>
                     Desde 2019, o GTF1 expandiu seu domínio para o Call of Duty, sob o comando rígido e profissional do <span class="highlight">CAPITÃO PÁTRIA</span>. Aqui, a lealdade é o nosso maior calibre. Somos amados por poucos, odiados por muitos, mas respeitados por todos.
                 </div>
@@ -206,11 +238,10 @@
         <div id="forum" class="page-content">
             <div class="card">
                 <h2 style="color: #25d366;">[QG] TERMINAL DE COMANDO VIP</h2>
-                <p>Poste sua dúvida técnica abaixo para que o Comando e outros membros ajudem.</p>
                 <div class="forum-container">
                     <form onsubmit="salvarDuvida(); return false;">
                         <input type="text" id="nome-msg" class="gtf-input" placeholder="SEU NOME / TAG" required>
-                        <textarea id="texto-msg" class="gtf-input" placeholder="DIGITE SUA DÚVIDA..." style="height:100px;" required></textarea>
+                        <textarea id="texto-msg" class="gtf-input" placeholder="DIGITE SUA MENSAGEM..." style="height:100px;" required></textarea>
                         <button type="submit" class="btn-join">POSTAR NO MURAL</button>
                     </form>
                     <div id="mural-duvidas"></div>
@@ -223,10 +254,10 @@
                 <h2 style="color: #0d47a1;">MARCAR X-CLÃ</h2>
                 <form action="https://formsubmit.co/danieljonata@gmail.com" method="POST">
                     <input type="hidden" name="_subject" value="NOVO DESAFIO DE X-CLÃ!">
-                    <input type="text" name="cla_desafiante" class="gtf-input" placeholder="NOME DO SEU CLÃ" required>
-                    <input type="text" name="tag_desafiante" class="gtf-input" placeholder="TAG" required>
-                    <input type="email" name="email_contato" class="gtf-input" placeholder="SEU E-MAIL DE CONTATO" required>
-                    <input type="text" name="whatsapp_contato" class="gtf-input" placeholder="WHATSAPP DE CONTATO" required>
+                    <input type="text" name="cla" class="gtf-input" placeholder="NOME DO SEU CLÃ" required>
+                    <input type="text" name="tag" class="gtf-input" placeholder="TAG" required>
+                    <input type="email" name="email" class="gtf-input" placeholder="SEU E-MAIL" required>
+                    <input type="text" name="whatsapp" class="gtf-input" placeholder="WHATSAPP" required>
                     <button type="submit" class="btn-join">ENVIAR DESAFIO</button>
                 </form>
             </div>
@@ -235,7 +266,7 @@
         <div id="vip" class="page-content">
             <div class="card">
                 <h2>CADASTRO VIP</h2>
-                <p style="color: #25d366; font-weight: bold;">AVISO: Após o cadastro, o Comando analisará seus dados e enviará sua senha exclusiva por e-mail em até 24 horas ou menos.</p>
+                <p style="color: #25d366; font-weight: bold;">AVISO: Após o cadastro, o Comando enviará sua senha exclusiva por e-mail em até 24 horas ou menos.</p>
                 <form action="https://formsubmit.co/danieljonata@gmail.com" method="POST">
                     <input type="hidden" name="CHAVE_GERADA" id="hidden_pass">
                     <input type="email" name="email" class="gtf-input" placeholder="SEU E-MAIL" required>
@@ -252,6 +283,7 @@
             <div class="counter-box">SOLDADOS<span>1.258</span></div>
             <div class="counter-box">VISITANTES<span>1.608</span></div>
         </div>
+        <div class="copyright">Copyright © 2026 Desenvolvido pelo Capitao Patria todos os direitos autorais</div>
     </footer>
 </body>
 </html>
